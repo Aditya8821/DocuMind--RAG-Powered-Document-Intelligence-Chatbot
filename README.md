@@ -16,7 +16,7 @@ A Retrieval-Augmented Generation (RAG) powered chatbot that allows you to chat w
 - **Frontend**: Streamlit
 - **Backend**: Python with LangChain for orchestration
 - **LLM**: Google's Gemini API
-- **Vector Database**: ChromaDB
+- **Vector Store**: FAISS (Facebook AI Similarity Search)
 - **Embeddings**: Sentence Transformers (all-MiniLM-L6-v2)
 
 ## Setup Instructions
@@ -69,9 +69,24 @@ streamlit run app.py
 
 This project demonstrates core RAG concepts:
 
-- **Document Chunking**: Breaking large documents into manageable pieces
-- **Vector Embeddings**: Converting text to numerical representations
-- **Semantic Search**: Finding relevant context based on meaning, not just keywords
+- **Document Chunking**: Breaking large documents into manageable pieces using LangChain's RecursiveCharacterTextSplitter
+- **Vector Embeddings**: Converting text to dense vector representations using Sentence Transformers
+  - Uses the all-MiniLM-L6-v2 model for an optimal balance of performance and quality
+  - Generates fixed-size vectors that capture semantic meaning
+  - Similar texts produce similar vector representations
+
+- **Efficient Similarity Search with FAISS**:
+  - Fast and memory-efficient vector similarity search
+  - Uses L2 distance metric for measuring document similarity
+  - Optimized index structure for quick nearest neighbor lookups
+  - Supports filtering by document source
+  - Scales well with large document collections
+
+- **Semantic Search**: 
+  - Finding relevant context based on meaning, not just keywords
+  - Can match documents even when they use different but related terms
+  - Batch processing for efficient document indexing
+
 - **Context-Augmented Generation**: Providing the LLM with relevant context for accurate answers
 - **Adaptive RAG Trigger (RAGate)**: Intelligently deciding when to use retrieval based on query type
 - **Cross-Document Analysis**: Analyzing and comparing information across multiple documents to answer comparative questions about their content

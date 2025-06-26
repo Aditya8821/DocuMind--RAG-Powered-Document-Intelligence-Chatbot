@@ -1,8 +1,11 @@
 import os
 import tempfile
 import streamlit as st
+
+# Disable Streamlit's file watcher to prevent PyTorch custom class errors
+os.environ["STREAMLIT_SERVER_FILE_WATCHER_TYPE"] = "none"
 from backend.document_processor import DocumentProcessor
-from backend.simple_vector_store import SimpleVectorStore
+from backend.vector_store import FAISSVectorStore
 from backend.rag_chatbot import RAGChatbot
 from backend.ragate import RAGate
 
@@ -93,7 +96,7 @@ st.markdown("""
 if "chat_history" not in st.session_state:
     st.session_state.chat_history = []
 if "vector_store" not in st.session_state:
-    st.session_state.vector_store = SimpleVectorStore()
+    st.session_state.vector_store = FAISSVectorStore()
 if "document_processor" not in st.session_state:
     st.session_state.document_processor = DocumentProcessor(chunk_size=1000, chunk_overlap=200)
 if "loaded_files" not in st.session_state:
